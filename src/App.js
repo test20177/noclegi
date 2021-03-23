@@ -65,15 +65,15 @@ function App() {
 
     const [state, dispatch] = useReducer(reducer, initialState )
 
-    const getBestHotel = useCallback( (options) => {
-      if ( state.hotels.length < options.minHotels ) {
+    const getBestHotel = () => {
+      if ( state.hotels.length < 2 ) {
         return null
       } else {
         return state.hotels
           .sort( (a, b) => a.rating > b.rating ? -1 : 1 )
           [0]
       }
-    }, [state.hotels])
+    }
 
     useEffect( () => {
         setTimeout(() => {
@@ -112,7 +112,7 @@ function App() {
         ? <LoadingIcon />
         : (
             <>
-              <BestHotel getHotel={getBestHotel} />
+              { getBestHotel() && <BestHotel getHotel={getBestHotel} /> }
               <Hotels hotels={state.hotels} />
             </>
         )

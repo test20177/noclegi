@@ -24,7 +24,7 @@ function Hotels(props) {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.title}>Oferty ({count})</h2>
+            <h2 className={styles.title}>{ count > 0 ? `Oferty (${count})` : 'Brak ofert' }</h2>
             {props.hotels.map( hotel => 
                 <Hotel key={hotel.id} {...hotel} /> 
             )}

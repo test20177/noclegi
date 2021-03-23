@@ -9,20 +9,24 @@ const BestHotel = (props) => {
 
     const [ time, setTime ] = useState('')
 
+    let interval = null
         
     useEffect( () => {
-        setInterval( () => {
+        
+        interval = setInterval( () => {
             const leftTime = -moment().diff(endTime) / 1000
             const minutes = Math.floor( leftTime / 60 )
             const seconds = Math.floor ( leftTime % 60 )
             setTime(`minut: ${minutes}, sekund: ${seconds}`)
+            console.log(leftTime)
         }, 1000)
+
+        return () => {
+            console.log('best hotel odmontowany');
+            clearInterval(interval)
+        }
+
     }, []) 
-        
-
-
-
-    if (!hotel) return null
 
     return (
         <div className="card bg-success text-white">
