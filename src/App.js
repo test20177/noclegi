@@ -12,6 +12,9 @@ import ThemeContext from './context/themeContext'
 import AuthContext from './context/authContext'
 import BestHotel from './components/Hotels/BestHotel/BestHotel'
 import InspiringQuote from "./components/InspiringQuote/InspiringQuote"
+import LastHotel from "./components/Hotels/LastHotel/LastHotel"
+import useStateStorage from './hooks/useStateStorage'
+import useWebsiteTilte from './hooks/useWebsiteTitle'
 
 const backendHotels = [
     {
@@ -64,6 +67,10 @@ const initialState = {
 function App() {
 
     const [state, dispatch] = useReducer(reducer, initialState )
+   
+    const [ lastHotel, setLastHotel ] = useStateStorage('last-hotel', null)
+
+    useWebsiteTilte('Strona główna')
 
     const getBestHotel = () => {
       if ( state.hotels.length < 2 ) {
@@ -74,6 +81,11 @@ function App() {
           [0]
       }
     }
+
+
+    const openHotel = (hotel) => setLastHotel(hotel)
+
+    const removeLastHotel = () => setLastHotel(null)
 
     useEffect( () => {
         setTimeout(() => {
@@ -111,10 +123,11 @@ function App() {
       state.loading 
         ? <LoadingIcon />
         : (
-            <>
-              { getBestHotel() && <BestHotel getHotel={getBestHotel} /> }
-              <Hotels hotels={state.hotels} />
-            </>
+          <>
+            { lastHotel ?  <LastHotel {...lastHotel} onRemove={removeLastHotel} /> : null }
+            { getBestHotel() && <BestHotel getHotel={getBestHotel} /> }
+            <Hotels onOpen={openHotel} hotels={state.hotels} />
+          </>
         )
     )
 

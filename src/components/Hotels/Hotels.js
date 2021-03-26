@@ -15,7 +15,7 @@ const slowFunction = (count) => {
 
 function Hotels(props) {
 
-   // useEffect( () => console.log('tera!'), [] )
+    // useEffect( () => console.log('tera!'), [] )
 
     const count = useMemo( () => {
         return slowFunction(props.hotels.length)
@@ -26,7 +26,11 @@ function Hotels(props) {
         <div className={styles.container}>
             <h2 className={styles.title}>{ count > 0 ? `Oferty (${count})` : 'Brak ofert' }</h2>
             {props.hotels.map( hotel => 
-                <Hotel key={hotel.id} {...hotel} /> 
+                <Hotel 
+                    onOpen={props.onOpen}  
+                    key={hotel.id} 
+                    {...hotel} 
+                /> 
             )}
         </div>
     )
